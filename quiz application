@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Question {
+    private String text;
+    private List<String> options;
+    private int correctOptionIndex;
+
+    public Question(String text, List<String> options, int correctOptionIndex) {
+        this.text = text;
+        this.options = options;
+        this.correctOptionIndex = correctOptionIndex;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public int getCorrectOptionIndex() {
+        return correctOptionIndex;
+    }
+}
+
+class Quiz {
+    private List<Question> questions;
+
+    public Quiz() {
+        this.questions = new ArrayList<>();
+    }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
+
+    public void takeQuiz() {
+        Scanner scanner = new Scanner(System.in);
+        int score = 0;
+
+        for (Question question : questions) {
+            System.out.println(question.getText());
+            List<String> options = question.getOptions();
+            for (int i = 0; i < options.size(); i++) {
+                System.out.println((i + 1) + ". " + options.get(i));
+            }
+
+            System.out.print("Enter your choice: ");
+            int userChoice = scanner.nextInt();
+
+            if (userChoice == question.getCorrectOptionIndex() + 1) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Incorrect!");
+            }
+        }
+
+        System.out.println("Quiz completed! Your score is: " + score + "/" + questions.size());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Quiz quiz = new Quiz();
+
+        // Example questions
+        Question question1 = new Question("What is the capital of France?",
+                List.of("Paris", "London", "Berlin", "Rome"), 0);
+        Question question2 = new Question("What is 2 + 2?", List.of("3", "4", "5", "6"), 1);
+        Question question3 = new Question("What is the powerhouse of the cell?",
+                List.of("Mitochondria", "Nucleus", "Ribosome", "Endoplasmic Reticulum"), 0);
+
+        // Add questions to the quiz
+        quiz.addQuestion(question1);
+        quiz.addQuestion(question2);
+        quiz.addQuestion(question3);
+
+        // Take the quiz
+        quiz.takeQuiz();
+    }
+}
